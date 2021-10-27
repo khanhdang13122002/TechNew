@@ -1,0 +1,447 @@
+﻿@model Tech_News.Models.DAO.HomeViewModel
+@{
+    if (Model != null)
+    {   
+        <!-- Feature News Section -->
+                    <div class="col-md-8">
+                        <div class="category_section mobile">
+                            <div class="article_title header_purple">
+                                <h2><a href="@Url.Action("Index", "Category", new { id = ViewBag.categories[0].id })" target="_self">Mobile</a></h2>
+                            </div>
+                            <!----article_title------>
+                            <div class="category_article_wrapper">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="top_article_img">
+                                            <a href="@Url.Action("Index", "NewDetails", new { id = Model.MobileArticle[0].id})" target="_self">
+                                                <img class="img-responsive"
+                                                     src="@Url.Content(Model.MobileArticle[0].article_thumbnail)" alt="feature-top">
+                                            </a>
+                                        </div>
+                                        <!----top_article_img------>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <span class="tag purple">Mobile</span>
+
+                                        <div class="category_article_title">
+                                            <h2>
+                                                <a href="@Url.Action("Index", "NewDetails", new { id = Model.MobileArticle[0].id })" target="_self">
+                                                    @Model.MobileArticle[0].article_title
+                                                </a>
+                                            </h2>
+                                        </div>
+                                        <!----category_article_title------>
+                                        <div class="category_article_date"><a href="#">@Model.MobileArticle[0].update_at</a>, by: <a href="#">@Model.MobileArticle[0].author.author_name</a></div>
+                                        <!----category_article_date------>
+                                        <div class="category_article_content child-1">
+                                            @Html.Raw(Model.MobileArticle[0].article_content)
+                                        </div>
+                                        <!----category_article_content------>
+                                        <div class="media_social">
+                                            <span><a href="#"><i class="fa fa-share-alt"></i>@Model.MobileArticle[0].view.total_view </a> Views</span>
+                                            <span><i class="fa fa-comments-o"></i><a href="#">@Model.MobileArticle[0].comments.Count()</a> Comments</span>
+                                        </div>
+                                        <!----media_social------>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="category_article_wrapper">
+                                <div class="row">
+                                    @for (int i = 1; i <=2; i++)
+                                    {
+                                        if(i == 2){ i += 1; }
+                                    <div class="col-12 col-md-6">
+
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <a href="@Url.Action("Index", "NewDetails", new { id = Model.MobileArticle[i].id })">
+                                                    <img class="media-object" src="@Url.Content(Model.MobileArticle[i].article_thumbnail)"
+                                                         alt="Generic placeholder image">
+                                                </a>
+                                            </div>
+                                            <div class="media-body">
+                                                <span class="tag purple">Mobile</span>
+
+                                                <h3 class="media-heading">
+                                                    <a href="single.html" target="_self">
+                                                        @Model.MobileArticle[i].article_title
+                                                    </a>
+                                                </h3>
+                                                <span class="media-date"><a href="#">@Model.MobileArticle[i].update_at</a>,  by: <a href="#">@Model.MobileArticle[i].author.author_name</a></span>
+
+                                                <div class="media_social">
+                                                    <span><a href="#"><i class="fa fa-share-alt"></i>@Model.MobileArticle[i].view.total_view</a> Shares</span>
+                                                    <span><a href="#"><i class="fa fa-comments-o"></i>@Model.MobileArticle[i].comments.Count()</a> Comments</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <a href="#">
+                                                    <img class="media-object" src="@Url.Content(Model.MobileArticle[i+1].article_thumbnail)"
+                                                         alt="Generic placeholder image">
+                                                </a>
+                                            </div>
+                                            <div class="media-body">
+                                                <span class="tag purple">Mobile</span>
+
+                                                <h3 class="media-heading">
+                                                    <a href="single.html" target="_self">
+                                                        @Model.MobileArticle[i+1].article_title
+                                                    </a>
+                                                </h3>
+                                                <span class="media-date"><a href="#">@Model.MobileArticle[i+1].update_at</a>,  by: <a href="#">@Model.MobileArticle[i+1].author.author_name</a></span>
+
+                                                <div class="media_social">
+                                                    <span><a href="#"><i class="fa fa-share-alt"></i>@Model.MobileArticle[i+1].view.total_view</a> Shares</span>
+                                                    <span><a href="#"><i class="fa fa-comments-o"></i>@Model.MobileArticle[i+1].comments.Count()</a> Comments</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    }
+                                </div>   
+                            </div>
+                            <p class="divider"><a href="@Url.Action("Index","Category",new { id = Model.MobileArticle[0].category_id})">More News&nbsp;&raquo;</a></p>
+                        </div>
+                        <!-- Mobile News Section -->
+
+                        <div class="category_section tablet">
+                            <div class="article_title header_pink">
+                                <h2><a href="category.html" target="_self">Tablet Pc</a></h2>
+                            </div>
+                            <!-- Mobile News Section -->
+
+                            <div class="category_article_wrapper">
+                                <div class="row">
+                                    @foreach(var tablet in Model.TabletArticle) { 
+                                        <div class="col-md-6">
+                                            <div class="category_article_body">
+                                                <div class="top_article_img">
+                                                    <a href="@Url.Action("Index","NewDetails",new { id = tablet.id})" target="_self">
+                                                        <img class="img-responsive" src="@Url.Content(tablet.article_thumbnail)"
+                                                             alt="feature-top">
+                                                    </a>
+                                                </div>
+                                                <!-- top_article_img -->
+
+                                                <span class="tag pink"><a href="category.html" target="_self">Tablet</a></span>
+
+                                                <div class="category_article_title">
+                                                    <h2>
+                                                        <a href="@Url.Action("Index","NewDetails",new { id = tablet.id})" target="_self">
+                                                            @tablet.article_title;
+                                                        </a>
+                                                    </h2>
+                                                </div>
+                                                <!-- category_article_title -->
+
+                                                <div class="article_date"><a href="#">@tablet.update_at</a>, by: <a href="#">@tablet.author.author_name</a></div>
+                                                <!----article_date------>
+                                                <!-- article_date -->
+
+                                                <div class="category_article_content">
+                                                    @Html.Raw(tablet.article_content)
+                                                </div>
+                                                <!-- category_article_content -->
+
+                                                <div class="media_social">
+                                                    <span><a href="#"><i class="fa fa-share-alt"></i>@tablet.view.total_view</a> Views</span>
+                                                    <span><i class="fa fa-comments-o"></i><a href="#">@tablet.comments.Count()</a> Comments</span>
+                                                </div>
+                                                <!-- media_social -->
+
+                                            </div>
+                                            <!-- category_article_body -->
+
+                                        </div>
+                                    }
+                                    
+
+                                </div>
+                                <!-- row -->
+
+                            </div>
+                            <!-- category_article_wrapper -->
+
+                            <p class="divider"><a href="@Url.Action("Index","Category",new { id = Model.TabletArticle[0].category_id})">More News&nbsp;&raquo;</a></p>
+                        </div>
+                        <!-- Tablet News Section -->
+
+                        <div class="category_section gadget">
+                            <div class="article_title header_black">
+                                <h2><a href="@Url.Action("Index","Category",new { id = Model.GragetsArticle[0].category_id})" target="_self">Gadgets</a></h2>
+                            </div>
+                            <div class="category_article_wrapper">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="category_article_body">
+                                            <div class="top_article_img">
+                                                <a href="@Url.Action("Index","NewDtails",new { id = Model.GragetsArticle[0].id})" target="_self">
+                                                    <img class="img-responsive" src="@Url.Content(Model.GragetsArticle[0].article_thumbnail)" alt="feature-top">
+                                                </a>
+                                            </div>
+                                            <!-- top_article_img -->
+
+                                            <span class="tag black"><a href="@Url.Action("Index","Category",new { id = Model.GragetsArticle[0].category_id})" target="_self">Gadgets</a></span>
+
+                                            <div class="category_article_title">
+                                                <h2>
+                                                    <a href="@Url.Action("Index","NewDtails",new { id = Model.GragetsArticle[0].id})" target="_self">@Model.GragetsArticle[0].article_title</a>
+                                                </h2>
+                                            </div>
+                                            <!-- category_article_title -->
+
+                                            <div class="article_date"><a href="#">@Model.GragetsArticle[0].update_at</a>, by: <a href="#">@Model.GragetsArticle[0].author.author_name</a></div>
+                                            <!----article_date------>
+                                            <div class="category_article_content text-overflow">
+                                               @Html.Raw(@Model.GragetsArticle[0].article_content);
+                                            </div>
+                                            <!-- category_article_content -->
+
+                                            <div class="media_social">
+                                                <span><a href="#"><i class="fa fa-share-alt"></i>@Model.GragetsArticle[0].view.total_view</a> Views</span>
+                                                <span><i class="fa fa-comments-o"></i><a href="#">@Model.GragetsArticle[0].comments.Count()</a> Comments</span>
+                                            </div>
+                                            <!-- media_social -->
+
+                                        </div>
+                                        <!-- category_article_body -->
+
+                                        <div class="category_article_list">
+                                            @for (int i = 1; i <= 2; i++)
+                                            {
+                                                <div class="media">
+                                                    <div class="media-left">
+                                                        <a href="@Url.Action("Index","NewDtails",new { id = Model.GragetsArticle[i].id})">
+                                                            <img class="media-object" src="@Url.Content(Model.GragetsArticle[i].article_thumbnail)"
+                                                                 alt="Generic placeholder image">
+                                                        </a>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h3 class="media-heading">
+                                                            <a href="@Url.Action("Index","NewDtails",new { id = Model.GragetsArticle[i].id})" target="_self">
+                                                               @Model.GragetsArticle[i].article_title
+                                                            </a>
+                                                        </h3>
+                                                        <span class="media-date"><a href="#">@Model.GragetsArticle[i].update_at</a>,  by: <a href="#">@Model.GragetsArticle[i].author.author_name</a></span>
+
+                                                        <div class="media_social">
+                                                            <span><a href="#"><i class="fa fa-share-alt"></i>@Model.GragetsArticle[i].view.total_view</a> Views</span>
+                                                            <span><a href="#"><i class="fa fa-comments-o"></i>@Model.GragetsArticle[i].comments.Count()</a> Comments</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+
+                                        </div>
+                                        <!-- category_article_list -->
+
+                                    </div>
+                                    <!-- col-md-6 -->
+
+                                    <div class="col-md-6">
+                                        <div class="category_article_body">
+                                            <div class="top_article_img">
+                                                <img class="img-responsive" src="@Url.Content(Model.GragetsArticle[3].article_thumbnail)" alt="feature-top">
+                                            </div>
+                                            <!-- top_article_img -->
+
+                                            <span class="tag black">Gadgets</span>
+
+                                            <div class="category_article_title">
+                                                <h2>
+                                                    <a href="@Url.Action("Index","NewDtails",new { id = Model.GragetsArticle[3].id})" target="_self">
+                                                        @Model.GragetsArticle[3].article_title
+                                                    </a>
+                                                </h2>
+                                            </div>
+                                            <!-- category_article_title -->
+
+                                            <div class="article_date"><a href="#">@Model.GragetsArticle[3].update_at</a>, by: <a href="#">@Model.GragetsArticle[3].author.author_name</a></div>
+                                            <!-- article_date -->
+
+                                            <div class="category_article_content">
+                                               @Html.Raw(Model.GragetsArticle[3].article_content)
+                                            </div>
+                                            <!-- category_article_content -->
+
+                                            <div class="article_social">
+                                                <span><i class="fa fa-share-alt"></i><a href="#">@Model.GragetsArticle[3].view.total_view</a>Views</span>
+                                                <span><i class="fa fa-comments-o"></i><a href="#">@Model.GragetsArticle[3].comments.Count()</a>Comments</span>
+                                            </div>
+                                            <!-- article_social -->
+
+                                        </div>
+                                        <!-- category_article_body -->
+                                    </div>
+                                </div>
+                                <!-- row -->
+
+                            </div>
+                            <!-- category_article_wrapper -->
+
+                            <p class="divider"><a href="@Url.Action("Index","Category",new { id = Model.GragetsArticle[0].category_id})">More News&nbsp;&raquo;</a></p>
+                        </div>
+                        <!-- Gadget News Section -->
+
+                        <div class="category_section camera">
+                            <div class="article_title header_orange">
+                                <h2><a href="category.html" target="_self">Camera</a></h2>
+                            </div>
+                            <!-- article_title -->
+                            @foreach (var camera in Model.CameraArticle)
+                            {
+
+                                <div class="category_article_wrapper">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div class="top_article_img">
+                                                <a href="@Url.Action("Index","NewDatils",new { id = camera.id})" target="_self">
+                                                    <img class="img-responsive" src="@Url.Content(camera.article_thumbnail)" alt="feature-top">
+                                                </a>
+                                            </div>
+                                            <!-- top_article_img -->
+
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span class="tag orange">Camera</span>
+
+                                            <div class="category_article_title">
+                                                <h2><a href="single.html" target="_self">@camera.article_title</a></h2>
+                                            </div>
+                                            <!-- category_article_title -->
+
+                                            <div class="article_date"><a href="#">@camera.update_at</a>, by: <a href="#">@camera.author.author_name</a></div>
+                                            <!----article_date------>
+                                            <!-- category_article_wrapper -->
+
+                                            <div class="category_article_content">
+                                                @Html.Raw(camera.article_content)
+                                            </div>
+                                            <!-- category_article_content -->
+
+                                            <div class="media_social">
+                                                <span><a href="#"><i class="fa fa-share-alt"></i>@camera.view.total_view </a> Views</span>
+                                                <span><i class="fa fa-comments-o"></i><a href="#">@camera.comments.Count()</a> Comments</span>
+                                            </div>
+                                            <!-- media_social -->
+
+                                        </div>
+                                        <!-- col-md-7 -->
+
+                                    </div>
+                                    <!-- row -->
+
+                                </div>
+                            }
+
+                            <p class="divider"><a href="@Url.Action("Index","Category",new { id = Model.CameraArticle[0].category_id})">More News&nbsp;&raquo;</a></p>
+                        </div>
+                        <!-- Camera News Section -->
+
+                        <div class="category_section design">
+                            <div class="article_title header_blue">
+                                <h2><a href="category.html" target="_self">Design</a></h2>
+                            </div>
+                            <!-- row -->
+                            @for (int i = 0; i < 2; i++)
+                            {
+
+                                if (i == 1) { i += 1; }
+                                <div class="category_article_wrapper">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="category_article_body">
+                                                <div class="top_article_img">
+                                                    <a href="@Url.Action("Index","NewDetails",new { id = Model.DesignnArticle[i].id})" target="_self">
+                                                        <img class="img-responsive" src="@Url.Content( Model.DesignnArticle[i].article_thumbnail)" alt="feature-top">
+                                                    </a>
+                                                </div>
+                                                <!-- top_article_img -->
+
+                                                <span class="tag blue"><a href="@Url.Action("Index","Category",new { id =  Model.DesignnArticle[i].category_id})" target="_self">Design</a></span>
+
+                                                <div class="category_article_title">
+                                                    <h2><a href="@Url.Action("Index","NewDetails",new { id = Model.DesignnArticle[i].id})" target="_self">@Model.DesignnArticle[i].article_title</a></h2>
+                                                </div>
+                                                <!-- category_article_title -->
+
+                                                <div class="category_article_date"><a href="#">@Model.DesignnArticle[i].update_at</a>, by: <a href="#">@Model.DesignnArticle[i].author.author_name</a></div>
+                                                <!----category_article_date------>
+                                                <!-- category_article_date -->
+
+                                                <div class="category_article_content">
+                                                   @Html.Raw(Model.DesignnArticle[i].article_content)
+                                                </div>
+                                                <!-- category_article_content -->
+
+                                                <div class="media_social">
+                                                    <span><a href="#"><i class="fa fa-share-alt"></i>@Model.DesignnArticle[i].view.total_view </a> Views</span>
+                                                    <span><i class="fa fa-comments-o"></i><a href="#">@Model.DesignnArticle[i].comments.Count()</a> Comments</span>
+                                                </div>
+                                                <!-- media_social -->
+
+                                            </div>
+                                            <!-- category_article_body -->
+
+                                        </div>
+                                        <!-- col-md-6 -->
+
+                                        <div class="col-md-6">
+                                            <div class="category_article_body">
+                                                <div class="top_article_img">
+                                                    <a href="@Url.Action("Index","NewDetails",new { id = Model.DesignnArticle[i+1].id})" target="_self">
+                                                        <img class="img-responsive" src="@Url.Content( Model.DesignnArticle[i+1].article_thumbnail)" alt="feature-top">
+                                                    </a>
+                                                </div>
+                                                <!-- top_article_img -->
+
+                                                <span class="tag blue"><a href="@Url.Action("Index","Category",new { id =  Model.DesignnArticle[i+1].category_id})" target="_self">Design</a></span>
+
+                                                <div class="category_article_title">
+                                                    <h2><a href="@Url.Action("Index","NewDetails",new { id = Model.DesignnArticle[i+1].id})" target="_self">@Model.DesignnArticle[i+1].article_title</a></h2>
+                                                </div>
+                                                <!-- category_article_title -->
+
+                                                <div class="category_article_date"><a href="#">@Model.DesignnArticle[i+1].update_at</a>, by: <a href="#">@Model.DesignnArticle[i].author.author_name</a></div>
+                                                <!----category_article_date------>
+                                                <!-- category_article_date -->
+
+                                                <div class="category_article_content">
+                                                    @Html.Raw(Model.DesignnArticle[i+1].article_content)
+                                                </div>
+                                                <!-- category_article_content -->
+
+                                                <div class="media_social">
+                                                    <span><a href="#"><i class="fa fa-share-alt"></i>@Model.DesignnArticle[i+1].view.total_view </a> Views</span>
+                                                    <span><i class="fa fa-comments-o"></i><a href="#">@Model.DesignnArticle[i+1].comments.Count()</a> Comments</span>
+                                                </div>
+                                                <!-- media_social -->
+
+                                            </div>
+
+                                        </div>
+                                        <!-- col-md-6 -->
+
+                                    </div>
+                                    <!-- row -->
+
+                                </div>
+
+                            }
+
+                            <!-- category_article_wrapper -->
+
+                            <p class="divider"><a href="@Url.Action("Index","Category",new {id =Model.DesignnArticle[0].category_id })">More News&nbsp;&raquo;</a></p>
+                        </div>
+                        <!-- Design News Section -->
+                    </div>
+                    <!-- Left Section -->
+        }
+        else { 
+            <h2 class="text-danger">Some Err</h2>
+        }
+
+    }

@@ -1,0 +1,29 @@
+﻿@using Tech_News.Models.EF
+@{
+    List<Comment> comments = ViewBag.cmt as List<Comment>;
+}
+@{ if (comments.Count() != 0)
+    {
+        foreach (var item in comments)
+        {
+            <div class="media child-comment">
+                <div class="media-left">
+                    <a href="#">
+                        <img alt="64x64" class="media-object reader-avatar" data-src="@Url.Content(item.user.avatar)"
+                             src="@Url.Content(item.user.avatar)" data-holder-rendered="true">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h2 class="media-heading"><a href="#">@item.user.UserName</a></h2>
+                    @item.comment_content
+                    <div class="entity_vote">
+                        <span class="reply_ic btn-reply" data-id="@item.id" data-art_id="@item.article_id" data-user_id="@ViewBag.user_id">Reply </span>
+
+                    </div>
+                </div>
+                @{Html.RenderAction("GetChildComments", "NewDetails", new { parent_id = item.id });}
+            </div>
+        }
+    }
+
+}

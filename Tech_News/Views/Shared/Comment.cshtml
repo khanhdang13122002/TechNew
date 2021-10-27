@@ -1,0 +1,81 @@
+﻿@model Tech_News.Models.EF.Comment
+@using (Html.BeginForm("AddComment", "NewDetails", FormMethod.Post))
+{
+    @Html.TextAreaFor(model => model.comment_content, new {@class = "form-control my-2",@id ="inputContent",@placeholder = "Comment"})
+    <br />
+    <span class="btn red" id="btnSubmit">Submit</span>
+}
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(() => {
+        var listBtnReply = $(".btn-reply");
+        var par_id = 0;
+        var art_id = $("#art_id").data("id");
+        var us_id = $("#user_id").data("id");
+        var eventController = {
+
+            EventResigter: () => {
+                listBtnReply.click((e) => {
+                    par_id = e.target.dataset.id;
+                    $("#inputContent").focus();
+                })
+                $("#btnSubmit").click(() => {
+
+                    var cmt_content = $("#inputContent").val();
+                    cmt_content.trim();
+                    if (cmt_content === "") {
+                        alert("Bình luận không được để trống");
+                        $("#inputContent").focus();
+
+                    }else{
+                        if (cmt_content.length < 15) {
+                            alert("Bình luận không được nhỏ hơn 25 ký tự");
+                        } else {
+
+                            var infor = {
+                                parent_id : par_id,
+                                comment_content : cmt_content,
+                                article_id : art_id,
+                                user_id : us_id
+                            }
+
+                            if (us_id !== "") {
+                                $.ajax({
+                                    url: "@Url.Action("AddComment","NewDetails")",
+                                    type: "POST",
+                                    data: jQuery.param({ cmt: infor }),
+                                    success: (respon) => {
+                                        if (respon !== null) {
+                                            if (respon) {
+                                                alert("Đã gửi comment")
+                                                 window.location.assign("@Url.Action("Index","NewDetails",new { id = ViewBag.article_id})");
+                                            } else {
+                                                alert("Some err please reload web!")
+                                            }
+                                        } else {
+                                            alert("Null")
+                                        }
+                                    },
+                                    error: () => {
+                                        alert("No..")
+                                    }
+
+                                })
+                            } else {
+                                alert("Bạn phải đăng nhập để sử dụng chức năng này!")
+                                let host = window.location.hostname;
+                                let url = host + window.location.pathname;
+                                window.location.assign("@Url.Action("Login","Account",new { ReturnUrl = "https://localhost:44346/NewDetails/Index/"+ViewBag.article_id})");
+                            }
+
+
+                        }
+                    }
+
+
+                });
+            },
+        }
+        eventController.EventResigter();
+    })
+</script>

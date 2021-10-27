@@ -1,0 +1,14 @@
+﻿
+@model Tech_News.Models.DAO.CategoryViewModel
+
+<section class="breadcrumb_section">
+    <div class="container">
+        <div class="row">
+            <ol class="breadcrumb">
+                <li><a href="@Url.Action("Index","Home")">Home</a></li>
+                <li><a href="@Url.Action("Index","Home")">News</a></li>
+                <li class="active"><a href="@Url.Action("Index","Category",new { id = Model.ArticleByPage[0].category_id})">@Model.ArticleByPage[0].category.category_name</a></li>
+            </ol>
+        </div>
+    </div>
+</section>

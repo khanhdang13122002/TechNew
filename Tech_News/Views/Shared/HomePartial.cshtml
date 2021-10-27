@@ -1,0 +1,104 @@
+﻿
+@model Tech_News.Models.DAO.HomeViewModel
+<section id="feature_news_section" class="feature_news_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-7 col-lg-7">
+                <div class="feature_article_wrapper">
+                    <div class="feature_article_img">
+                        <img class="img-responsive top_static_article_img top-view-img" src="@Url.Content(Model.TopThreeArticle[0].article_thumbnail)"
+                             alt="feature-top">
+                    </div>
+                    <!-- feature_article_img -->
+
+                    <div class="feature_article_inner">
+                        <div class="tag_lg red"><a href="category.html">Hot News</a></div>
+                        <div class="feature_article_title">
+                            <h1><a href="@Url.Action("Index", "NewDetails", new { id = Model.TopThreeArticle[0].id })" target="_self">@Model.TopThreeArticle[0].article_title</a></h1>
+                        </div>
+                        <!-- feature_article_title -->
+
+                        <div class="feature_article_date">
+                            <a href="#" target="_self">@Model.TopThreeArticle[0].author.author_name</a>,<a href="#" target="_self">@Model.TopThreeArticle[0].update_at</a>
+
+                        </div>
+                        <!-- feature_article_date -->
+
+                        <div class="feature_article_content">
+
+                            @Html.Raw(Model.TopThreeArticle[0].article_content)
+                        </div>
+                        <!-- feature_article_content -->
+
+                        <div class="article_social">
+                            <span><i class="fa fa-share-alt"></i><a href="#">@Model.TopThreeArticle[0].view.total_view</a>Views</span>
+                            <span><i class="fa fa-comments-o"></i><a href="#">@Model.TopThreeArticle[0].comments.Count</a>Comments</span>
+                        </div>
+                        <!-- article_social -->
+
+                    </div>
+                    <!-- feature_article_inner -->
+
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-5 col-lg-5">
+                <div class="row">
+                    @for (int i = 1; i <= 2; i++)
+                    {
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="feature_static_wrapper">
+                                <div class="feature_article_img">
+                                    <img class="img-responsive top-view-img" src="@Url.Content(Model.TopThreeArticle[i].article_thumbnail)" alt="feature-top">
+                                </div>
+                                <!-- feature_article_img -->
+
+                                <div class="feature_article_inner">
+                                    <div class="tag_lg purple"><a href="category.html">Top Viewed</a></div>
+                                    <div class="feature_article_title">
+                                        <h1><a href="@Url.Action("Index", "NewDetails", new { id = @Model.TopThreeArticle[i].id })" target="_self">@Model.TopThreeArticle[i].article_title</a></h1>
+                                    </div>
+                                    <!-- feature_article_title -->
+
+                                    <div class="feature_article_date">
+                                        <a href="#" target="_self">@Model.TopThreeArticle[i].author.author_name</a>,<a href="#"
+                                                                                                                       target="_self">
+                                            @Model.TopThreeArticle[i].update_at
+                                        </a>
+                                    </div>
+                                    <!-- feature_article_date -->
+
+                                    <div class="feature_article_content">
+                                        @Html.Raw(@Model.TopThreeArticle[i].article_content);
+                                    </div>
+                                    <!-- feature_article_content -->
+
+                                    <div class="article_social">
+                                        <span><i class="fa fa-share-alt"></i><a href="#">@Model.TopThreeArticle[i].view.total_view</a>Views</span>
+                                        <span><i class="fa fa-comments-o"></i><a href="#">@Model.TopThreeArticle[i].comments.Count()</a>Comments</span>
+                                    </div>
+                                    <!-- article_social -->
+
+                                </div>
+                                <!-- feature_article_inner -->
+
+                            </div>
+                            <!-- feature_static_wrapper -->
+
+                        </div>
+                    }
+                </div>
+
+            </div>
+
+
+            <!-- feature_article_wrapper --
+            <!-- col-md-7 -->
+            <!-- col-md-5 -->
+
+        </div>
+        <!-- Row -->
+
+    </div>
+    <!-- container -->
+
+</section>

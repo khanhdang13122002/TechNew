@@ -1,0 +1,217 @@
+﻿@using Tech_News.Models.EF
+@using Tech_News.Models
+@model Tech_News.Models.DAO.NewDetailsViewModel
+@{
+    ViewBag.Title = "NewsDetails";
+    List<Comment> comments = ViewBag.comments as List<Comment>;
+
+}
+@if (Model != null)
+{
+<div id="user_id" data-id="@ViewBag.user_id"></div>
+<div id="art_id" data-id="@Model.singleArticle.id"></div>
+<div class="col-md-8">
+    <div class="entity_wrapper">
+        <div class="entity_title">
+            <h1><a href="@Url.Action("Index","NewDetails",new { id = @Model.singleArticle.id})">@Model.singleArticle.article_title</a></h1>
+        </div>
+        <!-- entity_title -->
+
+        <div class="entity_meta">
+            <a href="#" target="_self">@Model.singleArticle.update_at</a>, by: <a href="#" target="_self">@Model.singleArticle.author.author_name</a>
+        </div>
+        <!-- entity_meta -->
+
+        <div class="entity_rating">
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star-half-full"></i>
+        </div>
+        <!-- entity_rating -->
+
+        <div class="entity_social">
+            <a href="#" class="icons-sm sh-ic">
+                <i class="fa fa-share-alt"></i>
+                <b>@Model.singleArticle.view.total_view</b> <span class="share_ic">Views</span>
+            </a>
+            <a href="#" class="icons-sm fb-ic"><i class="fa fa-facebook"></i></a>
+            <!--Twitter-->
+            <a href="#" class="icons-sm tw-ic"><i class="fa fa-twitter"></i></a>
+            <!--Google +-->
+            <a href="#" class="icons-sm inst-ic"><i class="fa fa-google-plus"> </i></a>
+            <!--Linkedin-->
+            <a href="#" class="icons-sm tmb-ic"><i class="fa fa-ge"> </i></a>
+            <!--Pinterest-->
+            <a href="#" class="icons-sm rss-ic"><i class="fa fa-rss"> </i></a>
+        </div>
+        <!-- entity_social -->
+
+        <div class="entity_thumb">
+            <img class="img-responsive" style="width:100%!important;" src="@Url.Content(Model.singleArticle.article_thumbnail)" alt="feature-top">
+        </div>
+        <!-- entity_thumb -->
+
+        <div class="entity_content">
+            @Html.Raw(@Model.singleArticle.article_content)
+        </div>
+        <!-- entity_content -->
+
+        <div class="entity_footer">
+            <div class="entity_tag">
+                <span class="blank"><a href="#">Tech</a></span>
+                <span class="blank"><a href="#">Transport</a></span>
+                <span class="blank"><a href="#">Mobile</a></span>
+                <span class="blank"><a href="#">Gadgets</a></span>
+            </div>
+            <!-- entity_tag -->
+
+            <div class="entity_social">
+                <span><i class="fa fa-share-alt"></i>@Model.singleArticle.view.total_view <a href="#"> Views</a> </span>
+                <span><i class="fa fa-comments-o"></i>@Model.singleArticle.comments.Count() <a href="#"> Comments</a> </span>
+            </div>
+            <!-- entity_social -->
+
+        </div>
+        <!-- entity_footer -->
+
+    </div>
+    <!-- entity_wrapper -->
+
+    <div class="related_news">
+        <div class="entity_inner__title header_purple">
+            <h2><a href="#">Related News</a></h2>
+        </div>
+        <!-- entity_title -->
+
+        <div class="row">
+            @for (int i = 0; i < 2; i++)
+            {
+                if (i == 1) { i += 1; }
+                <div class="col-md-6">
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="@Url.Action("Index","NewDetails",new { id = Model.relatedArticle[i].id})">
+                                <img class="media-object" src="@Url.Content(Model.relatedArticle[i].article_thumbnail)"
+                                     alt="Generic placeholder image">
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <span class="tag purple"><a href="@Url.Action("Index","Category",new { id = Model.relatedArticle[i].category_id})" target="_self">@Model.relatedArticle[i].category.category_name</a></span>
+
+                            <h3 class="media-heading">
+                                <a href="@Url.Action("Index","NewDetails",new { id = Model.relatedArticle[i].id})" target="_self">
+                                    @Model.relatedArticle[i].article_title
+                                </a>
+                            </h3>
+                            <span class="media-date"><a href="#">@Model.relatedArticle[i].update_at</a>,  by: <a href="#">@Model.relatedArticle[i].author.author_name</a></span>
+
+                            <div class="media_social">
+                                <span><a href="#"><i class="fa fa-share-alt"></i>@Model.relatedArticle[i].view.total_view</a> Views</span>
+                                <span><a href="#"><i class="fa fa-comments-o"></i>@Model.relatedArticle[i].comments.Count()</a> Comments</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="@Url.Action("Index","NewDetails",new { id = Model.relatedArticle[i+1].id})">
+                                <img class="media-object" src="@Url.Content(Model.relatedArticle[i+1].article_thumbnail)"
+                                     alt="Generic placeholder image">
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <span class="tag purple"><a href="@Url.Action("Index","Category",new { id = Model.relatedArticle[i+1].category_id})" target="_self">@Model.relatedArticle[i].category.category_name</a></span>
+
+                            <h3 class="media-heading">
+                                <a href="@Url.Action("Index","NewDetails",new { id = Model.relatedArticle[i+1].id})" target="_self">
+                                    @Model.relatedArticle[i + 1].article_title
+                                </a>
+                            </h3>
+                            <span class="media-date"><a href="#">@Model.relatedArticle[i + 1].update_at</a>,  by: <a href="#">@Model.relatedArticle[i + 1].author.author_name</a></span>
+
+                            <div class="media_social">
+                                <span><a href="#"><i class="fa fa-share-alt"></i>@Model.relatedArticle[i + 1].view.total_view</a> Views</span>
+                                <span><a href="#"><i class="fa fa-comments-o"></i>@Model.relatedArticle[i + 1].comments.Count()</a> Comments</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <!-- Related news -->
+
+
+    <div class="readers_comment">
+        <div class="entity_inner__title">
+            <h2>Readers Comment(@Model.singleArticle.comments.Count())</h2>
+        </div>
+        @if (comments.Count() == 0)
+        {
+            <h2>No comments</h2>
+        }
+        else
+        {
+            foreach (var cmt in comments)
+            {
+                if (cmt.parent_id == 0)
+                {
+                    
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="#">
+                                <img alt="64x64" class="media-object reader-avatar" data-src="@Url.Content(cmt.user.avatar)"
+                                     src="@Url.Content(cmt.user.avatar)" data-holder-rendered="true">
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <h2 class="media-heading"><a href="#">@cmt.user.UserName </a></h2>
+                            @cmt.comment_content
+                            <div class="entity_vote">
+                                <span class="reply_ic btn-reply" data-id="@cmt.id" data-art_id="@cmt.article_id" data-user_id="@ViewBag.user_id">Reply </span>
+                            </div>
+                        </div>
+                        @{Html.RenderAction("GetChildComments", "NewDetails", new { parent_id = cmt.id });}
+                    </div>
+                }
+            }
+        }   
+        </div>
+    <nav aria-label="Page navigation" class="pagination_section">
+        <ul class="pagination">
+            <li>
+                <a href="#" aria-label="Previous"> <span aria-hidden="true">&laquo;</span> </a>
+            </li>
+            @for (int i = 1; i <= ViewBag.page_cout; i++)
+            {
+
+                <li><a href="@Url.Action("Index","NewDetails",new { id = Model.singleArticle.id,cmt_page = i,cmt_limit = 2})">@i</a></li>
+
+            }
+            <li>
+                <a href="#" aria-label="Next" class="active"> <span aria-hidden="true">&raquo;</span> </a>
+            </li>
+        </ul>
+    </nav>
+    <div class="entity_comments">
+        <div class="entity_inner__title header_black">
+            <h2>Add a Comment</h2>
+        </div>
+        <!--Entity Title -->
+
+        <div class="entity_comment_from">
+            @Html.Partial("Comment", new Comment())
+        </div>
+        <!--Entity Comments From -->
+
+    </div>
+    <!--Entity Comments -->
+
+</div>
+    <!--Left Section-->
+}
+else
+{
+    <h2 class="text-danger">Some thing err</h2>
+}
