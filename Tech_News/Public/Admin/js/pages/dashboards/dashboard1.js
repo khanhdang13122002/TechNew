@@ -9,14 +9,22 @@ $(function () {
     // ============================================================== 
     // Newsletter
     // ============================================================== 
-
+    var totalUser = $("#totalUsers").data("value");
+    var totalArticle = $("#totalArticles").data("value");
+    var totalComment = $("#totalComments").data("value");
+    var new_series = [];
+    for (var j = 0; j < 3; j++) {
+        var change = totalArticle;
+        if (j > 0) { change = totalUser;} else if (j > 1) { change = totalComment; }
+        var new_array = [];
+        for (var i = 0; i <= 7; i++) {
+            new_array.push(Math.floor(Math.random() * change) + 1)
+        }
+        new_series.push(new_array);
+    }
     var data = {
-        labels: ['2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015'],
-        series: [
-            [5, 2, 7, 4, 5, 3, 5, 4],
-            [2, 5, 2, 6, 2, 5, 2, 4],
-            [2, 1, 2, 19, 3, 9, 1, 6]
-        ]
+        labels: ['2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021'],
+        series: new_series
     };
     var option = {
         top: 0,

@@ -9,8 +9,8 @@
             <div class="media child-comment">
                 <div class="media-left">
                     <a href="#">
-                        <img alt="64x64" class="media-object reader-avatar" data-src="@Url.Content(item.user.avatar)"
-                             src="@Url.Content(item.user.avatar)" data-holder-rendered="true">
+                        <img alt="64x64" class="media-object reader-avatar" data-src="@if (item.user.avatar == null) { Url.Content(" "); } else { Url.Content(item.user.avatar); }"
+                             src="@if (item.user.avatar == null) { Url.Content(" "); } else { Url.Content(item.user.avatar); }" data-holder-rendered="true">
                     </a>
                 </div>
                 <div class="media-body">

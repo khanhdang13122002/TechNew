@@ -16,7 +16,7 @@ namespace Tech_News.Models.EF
        {
             this.TotalCount = new_total_cout;
             double ef = TotalCount / limit;
-            this.TotalPage = Convert.ToInt32(Math.Ceiling(ef))+1;
+            this.TotalPage = Convert.ToInt32(Math.Ceiling(ef));
             return TotalPage;
         }
     }

@@ -6,7 +6,7 @@
             @Html.AntiForgeryToken()
 
             <ul class="nav navbar-nav navbar-right">
-                @if (User.IsInRole("admin"))
+                @if (User.IsInRole("Admin"))
                 {
                 <li>
                     @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "profiles", "Admin")

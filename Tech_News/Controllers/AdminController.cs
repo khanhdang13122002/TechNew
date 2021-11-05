@@ -1,37 +1,61 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Tech_News.Models.DAO;
+using Tech_News.Models.EF;
 
 namespace Tech_News.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class AdminController : Controller
+    public class AdminController : BaseController
     {
-        /*protected AdminViewModel   = new AdminViewModel();*/
+        protected AdminViewModel model  = new AdminViewModel();
+        protected ApplicationUserManager _userManager;
         // GET: Admin
-       /* [Authorize(Roles = "admin")]*/
-        public ActionResult Index()
+        public async  Task<ActionResult> Index()
         {
-            AuthorizeAttribute demo = new AuthorizeAttribute();
-            ViewBag.demo = demo.Roles;
+            ViewBag.user_id = GetId();
+            bool us = await model.GetSingle(ViewBag.user_id);
+            bool check = await model.GetData();
+            if (check && us)
+            {
+                return View(model);
+            }
             return View();
         }
         
+        
+        public async Task<ActionResult> Profiles() {
+            ViewBag.user_id = GetId();
+            bool check = await model.GetSingle(ViewBag.user_id);
+            if (check)
+            {
+            return View(model);
 
-        public ActionResult Profiles() {
-            return View( );
+            }
+            return View();
         }
 
+        [HttpPost]
+        public async Task<ActionResult> Profiles(AppUser us)
+        {
+            
+            return View();
+        }
         public ActionResult Fonts()
         {
             return View( );
         }
 
-        public ActionResult Articles()
+        public async Task<ActionResult> Articles()
         {
-            return View( );
+            ViewBag.user_id = GetId();
+            bool check = await model.GetSingle(ViewBag.user_id);
+
+            return View(model);
         }
 
         public ActionResult BlankPage()
