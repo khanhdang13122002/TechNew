@@ -9,7 +9,7 @@ namespace Tech_News.Helper
     {
         public static string hostMail = "smtp.gmail.com";
         public static int portMail = 587;
-        public static string mailSender = "dangk13122002@gmail.com";
+        public static string mailSender = "newstech157@gmail.com";
         public static string mailPassword = "13122002K@";
 
     }

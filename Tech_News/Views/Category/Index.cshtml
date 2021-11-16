@@ -58,7 +58,7 @@
                 <div class="col-md-6" style="margin-bottom:20px!important;">
                     <div class="category_article_body">
                         <div class="top_article_img">
-                            <img class="category-article-img" src="@Url.Content(art.article_thumbnail)" alt="feature-top">
+                            <img class="category-article-img" src="@if (art.article_thumbnail != null) { Url.Content(art.article_thumbnail);}else{Url.Content(" ");} " alt="feature-top">
                         </div>
                         <!-- top_article_img -->
 
@@ -76,7 +76,7 @@
                         </div>
                         <!-- article_date -->
 
-                        <div class="category_article_content text-overflow">
+                        <div class="category_article_content text-overflow" >
                             @Html.Raw(art.article_content)
                         </div>
                         <!-- category_article_content -->

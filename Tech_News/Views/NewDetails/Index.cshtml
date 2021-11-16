@@ -49,11 +49,11 @@
         <!-- entity_social -->
 
         <div class="entity_thumb">
-            <img class="img-responsive" style="width:100%!important;" src="@Url.Content(Model.singleArticle.article_thumbnail)" alt="feature-top">
+            <img class="img-responsive" style="width:100%!important;" src="@if (Model.singleArticle.article_thumbnail != null){ Url.Content(Model.singleArticle.article_thumbnail); } else { Url.Content(" "); } " alt="feature-top">
         </div>
         <!-- entity_thumb -->
 
-        <div class="entity_content">
+        <div class="entity_content" style="word-break:break-all;">
             @Html.Raw(@Model.singleArticle.article_content)
         </div>
         <!-- entity_content -->

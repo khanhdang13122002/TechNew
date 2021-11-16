@@ -15,15 +15,14 @@ namespace Tech_News.Models.EF
 
         public long id { get; set; }
 
-        [Required]
-        [MinLength(50)]
+        [Required(ErrorMessage = "Title can't be null")]
+        [MinLength(10,ErrorMessage = "Title can't less than 10 character")]
         public string article_title { get; set; }
 
-        [Required]
         public string article_thumbnail { get; set; }
 
-        [MinLength(255)]
-        [Required]
+        [MinLength(255,ErrorMessage = "Content can't less than 255 character")]
+        [Required(ErrorMessage ="Content can't be null")]
         public string article_content { get; set; }
 
         [Required]
@@ -45,6 +44,12 @@ namespace Tech_News.Models.EF
         public virtual ICollection<Comment> comments { get; set; }
         
         public virtual Tag tag { get; set; }
+        [NotMapped]
+        public HttpPostedFileBase uploadImage { get; set; }
 
+        public Article()
+        {
+            article_thumbnail = "~/Public/assets/img/tech_about.jpg";
+        }
     }
 }

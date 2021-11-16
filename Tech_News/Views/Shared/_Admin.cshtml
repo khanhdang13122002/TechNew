@@ -23,6 +23,9 @@
     <link rel="stylesheet" href="~/Public/Admin/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css">
     <!-- Custom CSS -->
     <link href="~/Public/Admin/css/style.min.css" rel="stylesheet">
+    <link href="~/Public/Admin/css/style.css" rel="stylesheet">
+
+
 </head>
 <body>
     <div>
@@ -46,7 +49,7 @@
                         <!-- ============================================================== -->
                         <!-- Logo -->
                         <!-- ============================================================== -->
-                        <a class="navbar-brand" href="@Url.Action("Index","Home")">
+                        <a class="navbar-brand" href="@Url.Action("Index", "Home")">
                             <!-- Logo icon -->
                             <b class="logo-icon">
                                 <!-- Dark Logo icon -->
@@ -93,112 +96,122 @@
                             <!-- User profile and search -->
                             <!-- ============================================================== -->
                             <li>
-                                <a class="profile-pic" href="@Url.Action("Profiles","Admin")">
-                                    <img src="@if (Model.single_user.avatar != null) { Url.Content(Model.single_user.avatar); } else { Url.Content(" "); } " alt="user-img" width="36"
+                                <a class="profile-pic" href="@Url.Action("Profiles", "Admin")">
+                                    @{
+                                        var avatar = " ";
+                                        if (!String.IsNullOrEmpty(Model.single_user.avatar))
+                                        {
+                                            avatar = Model.single_user.avatar;
+                                        }
+                                    }
+                                    <img src="@Url.Content(avatar)" alt="user-img" width="36" height="36"
                                          class="img-circle"><span class="text-white font-medium">@User.Identity.GetUserName()</span>
-                                </a>
-                            </li>
-                            <!-- ============================================================== -->
-                            <!-- User profile and search -->
-                            <!-- ============================================================== -->
-                        </ul>
-                    </div>
-                </nav>
-            </header>
-            <!-- ============================================================== -->
-            <!-- End Topbar header -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- Left Sidebar - style you can find in sidebar.scss  -->
-            <!-- ============================================================== -->
-            <aside class="left-sidebar" data-sidebarbg="skin6">
-                <!-- Sidebar scroll-->
-                <div class="scroll-sidebar">
-                    <!-- Sidebar navigation-->
-                    <nav class="sidebar-nav">
-                        <ul id="sidebarnav">
-                            <!-- User Profile-->
-                            <li class="sidebar-item pt-2">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="@Url.Action("Index","Admin")"
-                                   aria-expanded="false">
-                                    <i class="far fa-clock" aria-hidden="true"></i>
-                                    <span class="hide-menu">Dashboard</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="@Url.Action("profiles","Admin")"
-                                   aria-expanded="false">
-                                    <i class="fa fa-user" aria-hidden="true"></i>
-                                    <span class="hide-menu">Profile</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="@Url.Action("Articles","Admin")"
-                                   aria-expanded="false">
-                                    <i class="fa fa-table" aria-hidden="true"></i>
-                                    <span class="hide-menu">Articles</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="@Url.Action("fonts","Admin")"
-                                   aria-expanded="false">
-                                    <i class="fa fa-font" aria-hidden="true"></i>
-                                    <span class="hide-menu">Icon</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#"
-                                   aria-expanded="false">
-                                    <i class="fa fa-globe" aria-hidden="true"></i>
-                                    <span class="hide-menu">Google Map</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#"
-                                   aria-expanded="false">
-                                    <i class="fa fa-columns" aria-hidden="true"></i>
-                                    <span class="hide-menu">Blank Page</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#"
-                                   aria-expanded="false">
-                                    <i class="fa fa-info-circle" aria-hidden="true"></i>
-                                    <span class="hide-menu">Error 404</span>
-                                </a>
-                            </li>
-                        </ul>
-
+                                    </a>
+                                </li>
+                                <!-- ============================================================== -->
+                                <!-- User profile and search -->
+                                <!-- ============================================================== -->
+                            </ul>
+                        </div>
                     </nav>
-                    <!-- End Sidebar navigation -->
-                </div>
-                <!-- End Sidebar scroll-->
-            </aside>
-            @RenderBody()
+                </header>
+                <!-- ============================================================== -->
+                <!-- End Topbar header -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Left Sidebar - style you can find in sidebar.scss  -->
+                <!-- ============================================================== -->
+                <aside class="left-sidebar" data-sidebarbg="skin6">
+                    <!-- Sidebar scroll-->
+                    <div class="scroll-sidebar">
+                        <!-- Sidebar navigation-->
+                        <nav class="sidebar-nav">
+                            <ul id="sidebarnav">
+                                <!-- User Profile-->
+                                <li class="sidebar-item pt-2">
+                                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="@Url.Action("Index","Admin")"
+                                       aria-expanded="false">
+                                        <i class="far fa-clock" aria-hidden="true"></i>
+                                        <span class="hide-menu">Dashboard</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="@Url.Action("profiles","Admin")"
+                                       aria-expanded="false">
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                        <span class="hide-menu">Profile</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="@Url.Action("Articles","Admin")"
+                                       aria-expanded="false">
+                                        <i class="fa fa-table" aria-hidden="true"></i>
+                                        <span class="hide-menu">Articles</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="@Url.Action("fonts","Admin")"
+                                       aria-expanded="false">
+                                        <i class="fa fa-font" aria-hidden="true"></i>
+                                        <span class="hide-menu">Icon</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#"
+                                       aria-expanded="false">
+                                        <i class="fa fa-globe" aria-hidden="true"></i>
+                                        <span class="hide-menu">Google Map</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#"
+                                       aria-expanded="false">
+                                        <i class="fa fa-columns" aria-hidden="true"></i>
+                                        <span class="hide-menu">Blank Page</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#"
+                                       aria-expanded="false">
+                                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                        <span class="hide-menu">Error 404</span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </nav>
+                        <!-- End Sidebar navigation -->
+                    </div>
+                    <!-- End Sidebar scroll-->
+                </aside>
+                @RenderBody()
+            </div>
         </div>
-    </div>
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- ============================================================== -->
-    <!-- All Jquery -->
-    <!-- ============================================================== -->
-    <script src="~/Public/Admin/plugins/bower_components/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap tether Core JavaScript -->
-    <script src="~/Public/Admin/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/Public/Admin/js/app-style-switcher.js"></script>
-    <script src="~/Public/Admin/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
-    <!--Wave Effects -->
-    <script src="~/Public/Admin/js/waves.js"></script>
-    <!--Menu sidebar -->
-    <script src="~/Public/Admin/js/sidebarmenu.js"></script>
-    <!--Custom JavaScript -->
-    <script src="~/Public/Admin/js/custom.js"></script>
-    <!--This page JavaScript -->
-    <!--chartis chart-->
-    <script src="~/Public/Admin/plugins/bower_components/chartist/dist/chartist.min.js"></script>
-    <script src="~/Public/Admin/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
-    <script src="~/Public/Admin/js/pages/dashboards/dashboard1.js"></script>
-    @RenderSection("Scripts", false)
-</body>
+        <!-- ============================================================== -->
+        <!-- End Wrapper -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- All Jquery -->
+        <!-- ============================================================== -->
+        <script src="~/Public/Admin/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+        <!-- Bootstrap tether Core JavaScript -->
+        <script src="~/Public/Admin/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/Public/Admin/js/app-style-switcher.js"></script>
+        <script src="~/Public/Admin/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
+        <!--Wave Effects -->
+        <script src="~/Public/Admin/js/waves.js"></script>
+        <!--Menu sidebar -->
+        <script src="~/Public/Admin/js/sidebarmenu.js"></script>
+        <!--Custom JavaScript -->
+        <script src="~/Public/Admin/js/custom.js"></script>
+        <!--This page JavaScript -->
+        <!--chartis chart-->
+
+        <script src="~/Public/Admin/plugins/ckeditor/ckeditor.js"></script>
+        <script src="~/Public/Admin/js/pages/dashboards/dashboard1.js"></script>
+        <script src="~/Public/Admin/plugins/bower_components/chartist/dist/chartist.min.js"></script>
+        <script src="~/Public/Admin/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+        @RenderSection("Scripts", false)
+
+    </body>
 </html>

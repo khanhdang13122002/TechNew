@@ -35,91 +35,103 @@
         <!-- Start Page Content -->
         <!-- ============================================================== -->
         <!-- Row -->
-        @using (Html.BeginForm("Profiles", "Admin", FormMethod.Post))
-        {
+        <form action="@Url.Action("Profiles","Admin")" method="post" enctype="multipart/form-data">
+            <div class="row">
+                <span class="text-success">@ViewBag.changed</span>
+                <!-- Column -->
+                <div class="col-lg-4 col-xlg-3 col-md-12" style="cursor:pointer;">
 
-        <div class="row">
-            <!-- Column -->
-            <div class="col-lg-4 col-xlg-3 col-md-12" style="cursor:pointer;">
-                
-                <div class="white-box" id="choseImg">
-                    <div class="user-bg">
-                        <img width="100%" alt="user" src="@if (Model.single_user.avatar != null) { @Url.Content(Model.single_user.avatar);} else { Url.Content(" ");} ">
-                        <div class="overlay-box">
-                            <div class="user-content">
-                                <a href="javascript:void(0)" >
-                                    <img src="@if (Model.single_user.avatar != null) { @Url.Content(Model.single_user.avatar);} else { Url.Content(" ");} "
-                                         class="thumb-lg img-circle" alt="img">
-                                </a>
-                                <h4 class="text-white mt-2">@Model.single_user.UserName</h4>
-                                <h5 class="text-white mt-2">@Model.single_user.Email</h5>
+                    <div class="white-box" id="choseImg">
+                        <div class="user-bg">
+                            <img width="100%" alt="user" src="@if (Model.single_user.avatar != null) { @Url.Content(Model.single_user.avatar);} else { Url.Content(" ");} ">
+                            <div class="overlay-box">
+                                <div class="user-content">
+                                    <a href="javascript:void(0)">
+                                        <img src="@if (Model.single_user.avatar != null) { @Url.Content(Model.single_user.avatar);} else { Url.Content(" ");} "
+                                             class="thumb-lg img-circle" alt="img">
+                                    </a>
+                                    <h4 class="text-white mt-2">@Model.single_user.UserName</h4>
+                                    <h5 class="text-white mt-2">@Model.single_user.Email</h5>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <input type="file" name="uploadImages" class="btn btn-info form-control text-white" accept="image/*" />
+
                 </div>
-               @Html.TextBoxFor(model=>model.single_user.avatar,new{@type = "file",@class = "btn btn-info form-control text-white"})
-            </div>
-            <!-- Column -->
-            <!-- Column -->
-            <div class="col-lg-8 col-xlg-9 col-md-12">
-                <div class="card">
-                    <div class="card-body">
-                        <form class="form-horizontal form-material">
+                <!-- Column -->
+                <!-- Column -->
+                <div class="col-lg-8 col-xlg-9 col-md-12">
+                    <div class="card">
+                        <div class="card-body">
                             <div class="form-group mb-4">
+                                <input hidden name="user_id" value="@Model.single_user.Id" />
                                 <label class="col-md-12 p-0">Full Name</label>
                                 <div class="col-md-12 border-bottom p-0">
-                                    @Html.TextBoxFor(m => m.single_user.UserName, new { @class = "form-control p-0 border-0", @type = "text", @placeholder = "UserName", @value = "@Model.single_user.UserName" })
+                                    <input type="text" placeholder="UserName" class=" form-control p-0 border-0" name="txt_username" value="@Model.single_user.UserName" required/>
                                 </div>
                             </div>
                             <div class="form-group mb-4">
                                 <label for="example-email" class="col-md-12 p-0">Email</label>
                                 <div class="col-md-12 border-bottom p-0">
-                                    @Html.TextBoxFor(m => m.single_user.Email, new { @class = "form-control p-0 border-0", @type = "text", @placeholder = "Email", @value = "@Model.single_user.Email" })
+                                    <input type="text" placeholder="Email" class=" form-control p-0 border-0" name="txt_email" value="@Model.single_user.Email" required/>
                                 </div>
                             </div>
                             <div class="form-group mb-4">
-                                <label for="example-email" class="col-md-12 p-0">Email</label>
-                                <div class="col-md-12 border-bottom p-0">
-                                    @Html.TextBoxFor(m => m.single_user.PasswordHash, new { @class = "form-control p-0 border-0", @type = "password", @placeholder = "Password", @value = "@Model.single_user.PasswordHash" })
+                                <label for="example-email" class="col-md-12 p-0">Password Hash</label>
+                                <div class="row">
+                                    <div class="col-md-8 border-bottom p-0">
+                                        <input type="password" placeholder="Password" class=" form-control p-2 border-0" name="txt_password" value="@Model.single_user.PasswordHash" disabled/>
+                                    </div>
+                                    <div class="col-md-4 border-bottom p-0">
+                                        <button type="button" class="btn btn-info small text-white float-end" id="showChange">More</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-4 change-password">
+                                <div class="row">
+                                    <label for="example-email" class="col-md-12 p-0">Current Password</label>
+
+                                    <div class="col-md-12 border-bottom p-0">
+                                        <input type="password" placeholder="Password" class=" form-control p-2 border-0" name="txt_current_password"/>
+                                    </div>
+                                    <label for="example-email" class="col-md-12 p-0">New Password</label>
+
+                                    <div class="col-md-12 border-bottom p-0">
+                                        <input type="password" placeholder="Password" class=" form-control p-2 border-0" name="txt_new_password" pattern="^(?=[A-Za-z0-9]{1+}){6,12}$"/>
+                                        <span class="text-danger">@ViewBag.passwordErr</span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group mb-4">
                                 <label class="col-md-12 p-0">Phone No</label>
                                 <div class="col-md-12 border-bottom p-0">
-                                    @Html.TextBoxFor(m => m.single_user.PhoneNumber, new { @class = "form-control p-0 border-0", @type = "text", @placeholder = "Number Phone", @value = "@Model.single_user.PhoneNumber" })
+                                    <input type="text" placeholder="phone-num" class="form-control p-0 border-0" name="txt_phone_num" value="@Model.single_user.PhoneNumber" />
+                                    <span class="text-danger">@ViewBag.passwordErr</span>
                                 </div>
                             </div>
-                            
+
                             <div class="form-group mb-4">
                                 <div class="col-sm-12">
-                                    <button class="btn btn-success text-white">Update Profile</button>
+                                    <button type="submit" class="btn btn-success text-white">Update Profile</button>
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!-- Column -->
-        </div>
-        <!-- Row -->
-        <!-- ============================================================== -->
-        <!-- End PAge Content -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Right sidebar -->
-        <!-- ============================================================== -->
-        <!-- .right-sidebar -->
-        <!-- ============================================================== -->
-        <!-- End Right sidebar -->
-        <!-- ============================================================== -->
-        }
-    </div>
+                <!-- Column -->
 
+            </div>
+        </form>
+    </div>
 </div>
-}
-<script>
-    var imgbox = document.getElementById("choseImg");
-    imgbox.onclick = () => {
-        
+   @section Scripts{
+       <script>
+           $(document).ready(() => {
+               $("#showChange").click(() => {
+                   $(".change-password").toggle(500);
+               });
+           })
+       </script>
     }
-</script>
+}

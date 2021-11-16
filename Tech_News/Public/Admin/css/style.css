@@ -19,13 +19,30 @@ File: scss
 @import url(icons/weather-icons/css/weather-icons.min.css);
 .search-box .app-search .form-control {
   border-radius: 0px; }
-
+.pagination a{
+    padding:10px 16px;
+    color:black;
+    font-size:14px;
+    font-weight:700;
+}
+.actived {
+    background-color: rgba(255,106, 106,1);
+    color: white!important;
+}
+.article-table td span{
+    cursor:pointer;
+}
+.pagination a:hover {
+    background-color: rgba(255,106, 106,1);
+    color: white;
+}
 .topbar .dropdown-menu .with-arrow > span {
-  transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  -webkit-transform: rotate(45deg);
-  -o-transform: rotate(45deg);
-  -moz-transform: rotate(45deg); }
+    transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+}
 
 /*******************************/
 /*******************************/

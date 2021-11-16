@@ -21,11 +21,13 @@ namespace Tech_News.Models.EF
 
         public string author_instagram { get; set; }
         public string author_twitter { get; set; }
-  
         public virtual AppUser user { get; set; }
         public virtual ICollection<Article> articles { get; set; }
         public DateTime create_at { get; set; }
         public DateTime update_at { get; set; }
+        [NotMapped]
+        public string user_id { get; set; }
+
 
     }
 }

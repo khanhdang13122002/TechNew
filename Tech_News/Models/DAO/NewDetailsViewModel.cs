@@ -17,6 +17,7 @@ namespace Tech_News.Models.DAO
         {
             try
             {
+                await incrementViewById(id);
                 await GetDataL();
                 singleArticle = await article_dao.GetSingleById(id);
                 relatedArticle = await article_dao.GetArticleByCategory(singleArticle.category_id,4);
@@ -28,7 +29,21 @@ namespace Tech_News.Models.DAO
             }
 
         }
-
+        public async Task<bool>incrementViewById(int article_id)
+        {
+            try
+            {
+                var article = await DB.Articles.FindAsync(article_id);
+                article.view.total_view += 1;
+                await DB.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        
+        }
         public async Task<bool> AddComment(Comment cmt)
         {
             try

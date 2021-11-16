@@ -1,10 +1,10 @@
-﻿
+﻿@model Tech_News.Models.DAO.AdminViewModel
+@using Tech_News.Models.EF
 @{
     ViewBag.Title = "Articles";
     Layout = "~/Views/Shared/_Admin.cshtml";
 
 }
-
 <div class="page-wrapper">
     <!-- ============================================================== -->
     <!-- Bread crumb and right sidebar toggle -->
@@ -12,7 +12,7 @@
     <div class="page-breadcrumb bg-white">
         <div class="row align-items-center">
             <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                <h4 class="page-title">Basic Table</h4>
+                <h4 class="page-title">Articles</h4>
             </div>
             <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
                 <div class="d-md-flex">
@@ -38,61 +38,38 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="white-box">
-                    <h3 class="box-title">Basic Table</h3>
-                    <p class="text-muted">Add class <code>.table</code></p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="box-title">Articles</h3>
+                        <button type="button"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+                           <span class="fa fa-plus"></span> Add Article
+                        </button>
+                    </div>
                     <div class="table-responsive">
-                        <table class="table text-nowrap">
+                        <table class="table text-nowrap article-table">
                             <thead>
                                 <tr>
-                                    <th class="border-top-0">#</th>
-                                    <th class="border-top-0">First Name</th>
-                                    <th class="border-top-0">Last Name</th>
-                                    <th class="border-top-0">Username</th>
-                                    <th class="border-top-0">Role</th>
+                                    <th class="border-top-0">Id</th>
+                                    <th class="border-top-0">Title</th>
+                                    <th class="border-top-0 text-center">Thumnail</th>
+                                    <th class="border-top-0">Update At</th>
+                                    <th class="border-top-0 text-center">Views</th>
+                                    <th class="border-top-0 text-center">Editor</th>
                                 </tr>
                             </thead>
                             <tbody>
+
+                                @foreach (var item in Model.All_Article)
+                                {
+                                    <tr>
+                                        <td>@item.id</td>
+                                        <td class="text-overflow">@item.article_title</td>
+                                        <td class="text-center"><img src="@Url.Content(item.article_thumbnail)" width="60px" alt="article-cover-image" /></td>
+                                        <td class="text-center">@item.update_at.ToString("dd/MM/yyyy")</td>
+                                        <td class="text-center">@item.view.total_view</td>
+                                        <td><span class="fa fa-pen-square editor" data-id="@item.id" data-bs-toggle ="modal" data-bs-target ="#updateModel"> </span> <span class="fa fa-trash remove" data-id="@item.id"> </span> <span class="fa fa-eye"></span></td>
+                                    </tr>
+                                }
                                 <tr>
-                                    <td>1</td>
-                                    <td>Deshmukh</td>
-                                    <td>Prohaska</td>
-                                    <td>z@Genelia</td>
-                                    <td>admin</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Deshmukh</td>
-                                    <td>Gaylord</td>
-                                    <td>z@Ritesh</td>
-                                    <td>member</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Sanghani</td>
-                                    <td>Gusikowski</td>
-                                    <td>z@Govinda</td>
-                                    <td>developer</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>Roshan</td>
-                                    <td>Rogahn</td>
-                                    <td>z@Hritik</td>
-                                    <td>supporter</td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>Joshi</td>
-                                    <td>Hickle</td>
-                                    <td>z@Maruti</td>
-                                    <td>member</td>
-                                </tr>
-                                <tr>
-                                    <td>6</td>
-                                    <td>Nigam</td>
-                                    <td>Eichmann</td>
-                                    <td>z@Sonu</td>
-                                    <td>supporter</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -100,6 +77,35 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-12 col-md-12 d-flex justify-content-center align-items-center">
+                <nav aria-label="Page navigation" class="pagination_section">
+                    <ul class="pagination">
+                        <li>
+                            <a href="@Url.Action("Articles","Admin",new {currentPage = ViewBag.current_page -1 >=1 ?ViewBag.current_page - 1:ViewBag.current_page })" aria-label="Previous"> <span aria-hidden="true">&laquo;</span> </a>
+                        </li>
+                        @for (int i = 1; i <= ViewBag.page_cout; i++)
+                        {
+                            if (i == ViewBag.current_page)
+                            {
+                                <li><a href="@Url.Action("Articles","Admin",new { currentPage = i})" class="actived">@i</a></li>
+
+                            }
+                            else
+                            {
+                                <li><a href="@Url.Action("Articles","Admin",new { currentPage = i})"> @i </a></li>
+
+                            }
+                        }
+                        <li>
+                            <a href="@Url.Action("Articles","Admin",new {currentPage = ViewBag.current_page + 1 <= ViewBag.page_cout ? ViewBag.current_page + 1:ViewBag.current_page })" aria-label="Next" class="active"> <span aria-hidden="true">&raquo;</span> </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        @Html.Partial("AddArticle",new Article())
+        @Html.Partial("UpdateArticle",new Article())
         <!-- ============================================================== -->
         <!-- End PAge Content -->
         <!-- ============================================================== -->
@@ -118,4 +124,10 @@
     <!-- footer -->
     <!-- ============================================================== -->
 </div>
+@*add modal*@
 
+@section Scripts{
+<script>
+   
+</script>    
+}

@@ -1,0 +1,6 @@
+﻿@using Tech_News.Models.EF
+@{List<Category> categories = ViewBag.category as List<Category>;}
+@foreach(var item in categories)
+{
+    <option value="@item.id">@item.category_name</option>
+}

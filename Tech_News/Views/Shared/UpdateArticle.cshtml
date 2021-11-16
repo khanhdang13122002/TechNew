@@ -1,0 +1,45 @@
+﻿@model Tech_News.Models.EF.Article
+<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Update Article</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("UpdateArticle", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", onSubmit = "return updateArticle(this);" }))
+                {
+                    @Html.AntiForgeryToken();
+                    <h5>ID</h5>
+                    @Html.TextBoxFor(model => model.id, new { @class = "form-control", id = "txtId", @disabled = true })
+                    <br/>
+                    <h5>Title</h5>
+                    @Html.EditorFor(model => model.article_title, new { htmlAttributes = new { @class = "form-control", @id = "txtTitle_up", @name = "article_title" } })
+                    @Html.ValidationMessageFor(model => model.article_title, "", new { @class = "text-danger small" })
+                    <br />
+                    <h5>Content</h5>
+                    @Html.EditorFor(model => model.article_content, new { htmlAttributes = new { @class = "form-control", @id = "articleContent_up", @name = "article_content" } })
+                    @Html.ValidationMessageFor(model => model.article_content, "", new { @class = "text-danger small" })
+                    <br />
+                    <h5>Category</h5>
+                    <select name="category_id" class="form-control" id="category_up">
+                        @Html.Partial("CategoryBox")
+                    </select>
+                    <br />
+                    <h5>Thumbnail</h5>
+                    <input type="file" name="uploadImage" accept="image/*" class="form-control" />
+                    <br />
+                    <h5>Current Thumbnail</h5>
+                    <img src=" " alt="Article Thubmnail" id="currentThubm" class="img-fluid"/>
+                    <br />
+                    <div class="row">
+                        <div class="col-12 col-md-12 d-flex justify-content-end">
+                            <button type="button" class="m-2 btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="m-2 btn btn-primary" id="addBtn">Submit</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
