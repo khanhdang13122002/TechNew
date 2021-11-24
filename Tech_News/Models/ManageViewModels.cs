@@ -1,12 +1,25 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
-
+using Tech_News.Models.DAO;
 namespace Tech_News.Models
 {
-    public class IndexViewModel
-    {
+    public class IndexViewModel:LeftContentViewModel
+    {   
+        public async Task<bool> GetData()
+        {
+            try
+            {
+                await GetDataL();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         public bool HasPassword { get; set; }
         public IList<UserLoginInfo> Logins { get; set; }
         public string PhoneNumber { get; set; }
@@ -14,19 +27,55 @@ namespace Tech_News.Models
         public bool BrowserRemembered { get; set; }
     }
 
-    public class ManageLoginsViewModel
+    public class ManageLoginsViewModel:LeftContentViewModel
     {
+        public async Task<bool> GetData()
+        {
+            try
+            {
+                await GetDataL();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         public IList<UserLoginInfo> CurrentLogins { get; set; }
         public IList<AuthenticationDescription> OtherLogins { get; set; }
     }
 
-    public class FactorViewModel
+    public class FactorViewModel:LeftContentViewModel
     {
+        public async Task<bool> GetData()
+        {
+            try
+            {
+                await GetDataL();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         public string Purpose { get; set; }
     }
 
-    public class SetPasswordViewModel
+    public class SetPasswordViewModel:LeftContentViewModel
     {
+        public async Task<bool> GetData()
+        {
+            try
+            {
+                await GetDataL();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
@@ -39,8 +88,20 @@ namespace Tech_News.Models
         public string ConfirmPassword { get; set; }
     }
 
-    public class ChangePasswordViewModel
+    public class ChangePasswordViewModel:LeftContentViewModel
     {
+        public async Task<bool> GetData()
+        {
+            try
+            {
+                await GetDataL();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Current password")]
@@ -58,16 +119,40 @@ namespace Tech_News.Models
         public string ConfirmPassword { get; set; }
     }
 
-    public class AddPhoneNumberViewModel
+    public class AddPhoneNumberViewModel:LeftContentViewModel
     {
+        public async Task<bool> GetData()
+        {
+            try
+            {
+                await GetDataL();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         [Required]
         [Phone]
         [Display(Name = "Phone Number")]
         public string Number { get; set; }
     }
 
-    public class VerifyPhoneNumberViewModel
+    public class VerifyPhoneNumberViewModel:LeftContentViewModel
     {
+        public async Task<bool> GetData()
+        {
+            try
+            {
+                await GetDataL();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         [Required]
         [Display(Name = "Code")]
         public string Code { get; set; }
@@ -78,8 +163,20 @@ namespace Tech_News.Models
         public string PhoneNumber { get; set; }
     }
 
-    public class ConfigureTwoFactorViewModel
+    public class ConfigureTwoFactorViewModel:LeftContentViewModel
     {
+        public async Task<bool> GetData()
+        {
+            try
+            {
+                await GetDataL();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         public string SelectedProvider { get; set; }
         public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }
     }

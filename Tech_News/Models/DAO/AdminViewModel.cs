@@ -54,6 +54,10 @@ namespace Tech_News.Models.DAO
         {
             return await DB.Articles.Where(art => art.id == id).FirstOrDefaultAsync();
         }
+        public async Task<int> GetTotalCategory()
+        {
+            return await DB.Categories.CountAsync();
+        }
         public async Task<int> GetToTalArticle()
         {
             return await DB.Articles.CountAsync();
@@ -84,6 +88,36 @@ namespace Tech_News.Models.DAO
             {
                 return false;
             }
+        }
+        public async Task<bool> UpdateArticle(Article obj)
+        {
+            if (obj != null)
+            {
+                try
+                {
+                    var ef = await DB.Articles.FindAsync(obj.id);
+                    if (ef != obj)
+                    {
+                        var default_thumb = "~/Public/assets/img/tech_about.jpg";
+                        ef.article_content = obj.article_content;
+                        ef.article_title = obj.article_title;
+                        ef.category_id = obj.category_id;
+                        ef.update_at = DateTime.Now;
+                        if (obj.article_thumbnail != null && obj.article_thumbnail != default_thumb)
+                        {
+                            ef.article_thumbnail = obj.article_thumbnail;
+                        }
+                        await DB.SaveChangesAsync();
+                        return true;
+                    }
+                   
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+            return false;
         }
         public async Task<bool> Update(AppUser us)
         {
@@ -127,6 +161,92 @@ namespace Tech_News.Models.DAO
             {
                 return false;
             }
+        }
+        public async Task<List<Article>> SearchArticleByKeyword(string keyword, int page)
+        {
+            return await DB.Articles.Where(
+                ef => ef.article_title.Contains(keyword)
+                ).OrderBy(ef => ef.id).Skip((page - 1) * 10).Take(10).ToListAsync();
+        }
+        public async Task<List<Category>> SearchCategoryByKeyword(string keyword,int page)
+        {
+            return await DB.Categories.Where(
+                ef => ef.category_name.Contains(keyword)
+                ).OrderBy(ef => ef.id).Skip((page - 1) * 10).Take(10).ToListAsync();
+        }
+        public async Task<bool> GetCategoryByPage(int page,int limit = 10)
+        {
+            try
+            {
+                AllCategory = await DB.Categories.OrderBy(x => x.id).Skip((page - 1) * limit).Take(limit).ToListAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public async Task<bool> AddCategory(Category category)
+        {
+            try
+            {
+                category.update_at = DateTime.Now;
+                category.create_at = DateTime.Now;
+                DB.Categories.Add(category);
+                await DB.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+        public async Task<bool> UpdateCategory(Category category)
+        {
+            try
+            {
+                var ef = await GetCategoryById(category.id);
+                if (ef != null)
+                {
+                    ef.category_name = category.category_name;
+                    ef.update_at = DateTime.Now;
+                    await DB.SaveChangesAsync();
+                    return true;
+                }
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public async Task<bool> RemoveCategory(long id)
+        {
+            try
+            {
+                var ef = await DB.Articles.Where(x => x.category_id == id).ToListAsync();
+                var category = await DB.Categories.FindAsync(id);
+                DB.Articles.RemoveRange(ef);
+                DB.Categories.Remove(category);
+                await DB.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public async Task<Category> GetCategoryById(long id)
+        {
+            return await DB.Categories.FindAsync(id);
+        }
+        public async Task<int> GetCountCategory()
+        {
+            return await DB.Categories.CountAsync();
+        }
+        public async Task<int> GetCountArticle()
+        {
+            return await DB.Articles.CountAsync();
         }
         public async Task<bool> AddViewsToArtcile()
         {

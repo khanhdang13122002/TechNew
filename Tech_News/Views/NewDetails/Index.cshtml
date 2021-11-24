@@ -49,7 +49,7 @@
         <!-- entity_social -->
 
         <div class="entity_thumb">
-            <img class="img-responsive" style="width:100%!important;" src="@if (Model.singleArticle.article_thumbnail != null){ Url.Content(Model.singleArticle.article_thumbnail); } else { Url.Content(" "); } " alt="feature-top">
+            <img class="img-responsive" style="width:100%!important;" src="@Url.Content(Model.singleArticle.article_thumbnail)" alt="feature-top">
         </div>
         <!-- entity_thumb -->
 
@@ -86,58 +86,63 @@
         <!-- entity_title -->
 
         <div class="row">
-            @for (int i = 0; i < 2; i++)
+            @if (Model.relatedArticle.Count() >= 2)
             {
-                if (i == 1) { i += 1; }
-                <div class="col-md-6">
-                    <div class="media">
-                        <div class="media-left">
-                            <a href="@Url.Action("Index","NewDetails",new { id = Model.relatedArticle[i].id})">
-                                <img class="media-object" src="@Url.Content(Model.relatedArticle[i].article_thumbnail)"
-                                     alt="Generic placeholder image">
-                            </a>
-                        </div>
-                        <div class="media-body">
-                            <span class="tag purple"><a href="@Url.Action("Index","Category",new { id = Model.relatedArticle[i].category_id})" target="_self">@Model.relatedArticle[i].category.category_name</a></span>
-
-                            <h3 class="media-heading">
-                                <a href="@Url.Action("Index","NewDetails",new { id = Model.relatedArticle[i].id})" target="_self">
-                                    @Model.relatedArticle[i].article_title
+                for (int i = 0; i < 2; i++)
+                {
+                    if (i == 1) { i += 1; }
+                    <div class="col-md-6">
+                        <div class="media">
+                            <div class="media-left">
+                                <a href="@Url.Action("Index", "NewDetails", new { id = Model.relatedArticle[i].id })">
+                                    <img class="media-object" src="@Url.Content(Model.relatedArticle[i].article_thumbnail)"
+                                         alt="Generic placeholder image">
                                 </a>
-                            </h3>
-                            <span class="media-date"><a href="#">@Model.relatedArticle[i].update_at</a>,  by: <a href="#">@Model.relatedArticle[i].author.author_name</a></span>
+                            </div>
+                            <div class="media-body">
+                                <span class="tag purple"><a href="@Url.Action("Index", "Category", new { id = Model.relatedArticle[i].category_id })" target="_self">@Model.relatedArticle[i].category.category_name</a></span>
 
-                            <div class="media_social">
-                                <span><a href="#"><i class="fa fa-share-alt"></i>@Model.relatedArticle[i].view.total_view</a> Views</span>
-                                <span><a href="#"><i class="fa fa-comments-o"></i>@Model.relatedArticle[i].comments.Count()</a> Comments</span>
+                                <h3 class="media-heading">
+                                    <a href="@Url.Action("Index", "NewDetails", new { id = Model.relatedArticle[i].id })" target="_self">
+                                        @Model.relatedArticle[i].article_title
+                                    </a>
+                                </h3>
+                                <span class="media-date"><a href="#">@Model.relatedArticle[i].update_at</a>,  by: <a href="#">@Model.relatedArticle[i].author.author_name</a></span>
+
+                                <div class="media_social">
+                                    <span><a href="#"><i class="fa fa-share-alt"></i>@Model.relatedArticle[i].view.total_view</a> Views</span>
+                                    <span><a href="#"><i class="fa fa-comments-o"></i>@Model.relatedArticle[i].comments.Count()</a> Comments</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="media">
+                            <div class="media-left">
+                                <a href="@Url.Action("Index", "NewDetails", new { id = Model.relatedArticle[i + 1].id })">
+                                    <img class="media-object" src="@Url.Content(Model.relatedArticle[i + 1].article_thumbnail)"
+                                         alt="Generic placeholder image">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <span class="tag purple"><a href="@Url.Action("Index", "Category", new { id = Model.relatedArticle[i + 1].category_id })" target="_self">@Model.relatedArticle[i].category.category_name</a></span>
+
+                                <h3 class="media-heading">
+                                    <a href="@Url.Action("Index", "NewDetails", new { id = Model.relatedArticle[i + 1].id })" target="_self">
+                                        @Model.relatedArticle[i + 1].article_title
+                                    </a>
+                                </h3>
+                                <span class="media-date"><a href="#">@Model.relatedArticle[i + 1].update_at</a>,  by: <a href="#">@Model.relatedArticle[i + 1].author.author_name</a></span>
+
+                                <div class="media_social">
+                                    <span><a href="#"><i class="fa fa-share-alt"></i>@Model.relatedArticle[i + 1].view.total_view</a> Views</span>
+                                    <span><a href="#"><i class="fa fa-comments-o"></i>@Model.relatedArticle[i + 1].comments.Count()</a> Comments</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="media">
-                        <div class="media-left">
-                            <a href="@Url.Action("Index","NewDetails",new { id = Model.relatedArticle[i+1].id})">
-                                <img class="media-object" src="@Url.Content(Model.relatedArticle[i+1].article_thumbnail)"
-                                     alt="Generic placeholder image">
-                            </a>
-                        </div>
-                        <div class="media-body">
-                            <span class="tag purple"><a href="@Url.Action("Index","Category",new { id = Model.relatedArticle[i+1].category_id})" target="_self">@Model.relatedArticle[i].category.category_name</a></span>
-
-                            <h3 class="media-heading">
-                                <a href="@Url.Action("Index","NewDetails",new { id = Model.relatedArticle[i+1].id})" target="_self">
-                                    @Model.relatedArticle[i + 1].article_title
-                                </a>
-                            </h3>
-                            <span class="media-date"><a href="#">@Model.relatedArticle[i + 1].update_at</a>,  by: <a href="#">@Model.relatedArticle[i + 1].author.author_name</a></span>
-
-                            <div class="media_social">
-                                <span><a href="#"><i class="fa fa-share-alt"></i>@Model.relatedArticle[i + 1].view.total_view</a> Views</span>
-                                <span><a href="#"><i class="fa fa-comments-o"></i>@Model.relatedArticle[i + 1].comments.Count()</a> Comments</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                }
             }
+            else { <h4 style="margin-left:14px">No Related Article</h4>}
+
         </div>
     </div>
     <!-- Related news -->

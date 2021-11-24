@@ -6,16 +6,17 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using Tech_News.Models.DAO;
 using Tech_News.Models;
 
 namespace Tech_News.Controllers
 {
     [Authorize]
-    public class ManageController : Controller
+    public class ManageController : BaseController
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
+        protected LeftContentViewModel left = new LeftContentViewModel();
         public ManageController()
         {
         }
@@ -54,6 +55,7 @@ namespace Tech_News.Controllers
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
+            ViewBag.categories = await GetCategories();
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
@@ -72,6 +74,7 @@ namespace Tech_News.Controllers
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
+            await model.GetData();
             return View(model);
         }
 
@@ -101,8 +104,9 @@ namespace Tech_News.Controllers
 
         //
         // GET: /Manage/AddPhoneNumber
-        public ActionResult AddPhoneNumber()
+        public async Task<ActionResult> AddPhoneNumber()
         {
+            ViewBag.categories = await GetCategories();
             return View();
         }
 
@@ -164,6 +168,7 @@ namespace Tech_News.Controllers
         // GET: /Manage/VerifyPhoneNumber
         public async Task<ActionResult> VerifyPhoneNumber(string phoneNumber)
         {
+            ViewBag.categories = await GetCategories();
             var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), phoneNumber);
             // Send an SMS through the SMS provider to verify the phone number
             return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
@@ -215,8 +220,9 @@ namespace Tech_News.Controllers
 
         //
         // GET: /Manage/ChangePassword
-        public ActionResult ChangePassword()
+        public async Task<ActionResult> ChangePassword()
         {
+            ViewBag.categories = await GetCategories();
             return View();
         }
 
@@ -246,8 +252,9 @@ namespace Tech_News.Controllers
 
         //
         // GET: /Manage/SetPassword
-        public ActionResult SetPassword()
+        public async Task<ActionResult> SetPassword()
         {
+            ViewBag.categories = await GetCategories();
             return View();
         }
 
@@ -280,6 +287,7 @@ namespace Tech_News.Controllers
         // GET: /Manage/ManageLogins
         public async Task<ActionResult> ManageLogins(ManageMessageId? message)
         {
+            ViewBag.categories = await GetCategories();
             ViewBag.StatusMessage =
                 message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
                 : message == ManageMessageId.Error ? "An error has occurred."

@@ -9,18 +9,18 @@
     <!-- ============================================================== -->
     <!-- Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
-    <div class="page-breadcrumb bg-white">
+    <div class="page-breadcrumb bg-white pb-4">
         <div class="row align-items-center">
-            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                 <h4 class="page-title">Articles</h4>
             </div>
-            <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-                <div class="d-md-flex">
-                    <ol class="breadcrumb ms-auto">
-                        <li><a href="#" class="fw-normal">Dashboard</a></li>
-                    </ol>
-                   
-                </div>
+            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
+                <form action="@Url.Action("ArticleSearch","Admin")" method="post" class="input-group rounded" onsubmit="return SearchArticle(1);">
+                    <input type="search" class="form-control rounded" placeholder="Search" id="searchString" />
+                    <button type="submit" class="input-group-text border-0" id="searchBtn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
             </div>
         </div>
         <!-- /.col-lg-12 -->
@@ -56,7 +56,7 @@
                                     <th class="border-top-0 text-center">Editor</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="articleTable">
 
                                 @foreach (var item in Model.All_Article)
                                 {
@@ -66,7 +66,7 @@
                                         <td class="text-center"><img src="@Url.Content(item.article_thumbnail)" width="60px" alt="article-cover-image" /></td>
                                         <td class="text-center">@item.update_at.ToString("dd/MM/yyyy")</td>
                                         <td class="text-center">@item.view.total_view</td>
-                                        <td><span class="fa fa-pen-square editor" data-id="@item.id" data-bs-toggle ="modal" data-bs-target ="#updateModel"> </span> <span class="fa fa-trash remove" data-id="@item.id"> </span> <span class="fa fa-eye"></span></td>
+                                        <td><span class="fa fa-pen-square editor_article" data-id="@item.id" data-bs-toggle ="modal" data-bs-target ="#updateModal"> </span> <span class="fa fa-trash remove_article" data-id="@item.id"> </span> <a href="@Url.Action("Index","NewDetails",new { id = item.id})"><span class="fa fa-eye text-dark"></span></a></td>
                                     </tr>
                                 }
                                 <tr>
@@ -80,7 +80,7 @@
         <div class="row">
             <div class="col-12 col-md-12 d-flex justify-content-center align-items-center">
                 <nav aria-label="Page navigation" class="pagination_section">
-                    <ul class="pagination">
+                    <ul class="pagination" id="articlePagination">
                         <li>
                             <a href="@Url.Action("Articles","Admin",new {currentPage = ViewBag.current_page -1 >=1 ?ViewBag.current_page - 1:ViewBag.current_page })" aria-label="Previous"> <span aria-hidden="true">&laquo;</span> </a>
                         </li>

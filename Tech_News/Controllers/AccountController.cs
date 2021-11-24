@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using Tech_News.Helper;
 using Tech_News.Models;
 using Tech_News.Models.EF;
+using Tech_News.Models.DAO;
 
 namespace Tech_News.Controllers
 {
@@ -21,10 +22,10 @@ namespace Tech_News.Controllers
         protected string return_url = "https://localhost:44346/";
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
+        protected LeftContentViewModel left = new LeftContentViewModel();
         public AccountController()
         {
-           /* return_url = Url.Action("Index", "Home");*/
+            
 
         }
 
@@ -214,6 +215,7 @@ namespace Tech_News.Controllers
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {
             ViewBag.confirm = true;
+            await left.GetDataL();
             if (userId == null || code == null)
             {
                 ViewBag.confirm = false;

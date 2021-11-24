@@ -17,6 +17,9 @@ File: scss
 @import url(icons/themify-icons/themify-icons.css);
 @import url(icons/material-design-iconic-font/css/materialdesignicons.min.css);
 @import url(icons/weather-icons/css/weather-icons.min.css);
+.pointer:hover{
+    cursor:pointer!important;
+}
 .search-box .app-search .form-control {
   border-radius: 0px; }
 .pagination a{

@@ -136,10 +136,7 @@ namespace Tech_News.Controllers
             }
             return View();
         }
-        public ActionResult Fonts()
-        {
-            return View( );
-        }
+       
 
         public async Task<ActionResult> Articles(int currentPage = 1)
         {
@@ -174,9 +171,7 @@ namespace Tech_News.Controllers
                 {
                     if (obj.uploadImage != null)
                     {
-                        var fileName = Path.GetFileNameWithoutExtension(obj.uploadImage.FileName);
-                        var extension = Path.GetExtension(obj.uploadImage.FileName);
-                        fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                        var fileName = ProcessImage(obj.uploadImage.FileName);
                         obj.article_thumbnail = "~/Public/assets/img/" + fileName;
                         fileName = Path.Combine(Server.MapPath("~/Public/assets/img/"), fileName);
                         obj.uploadImage.SaveAs(fileName);
@@ -192,14 +187,95 @@ namespace Tech_News.Controllers
             RedirectToAction("Articles");
             return Json(false, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult BlankPage()
+
+
+        //
+        public async Task<ActionResult> Categories(int page = 1) {
+
+            ViewBag.user_id = GetId();
+            bool check = await model.GetSingle(ViewBag.user_id);
+            bool getData = await model.GetCategoryByPage(page);
+
+            if (getData)
+            {
+                ViewBag.current_page = page;
+                ViewBag.page_cout = pl.GetPageInfo(10, await model.GetTotalCategory());
+                return View(model);
+            }
+            return View();
+        }
+        [HttpPost]
+        public async Task<JsonResult> AddCategory(Category obj)
         {
-            return View( );
+            if (Request.IsAjaxRequest())
+            {
+                if (obj != null)
+                {
+                    bool check = await model.AddCategory(obj);
+                    if (check)
+                    {
+                        return Json(true, JsonRequestBehavior.AllowGet);
+                    }
+                }
+            }
+            return Json(false, JsonRequestBehavior.AllowGet);
+
         }
 
-        public ActionResult GoogleMap()
+        [HttpPost]
+        public async Task<JsonResult> GetCategoryData(long id)
         {
-            return View( );
+            if (Request.IsAjaxRequest())
+            {
+                if (id > 0)
+                {
+                    var ef = await model.GetCategoryById(id);
+                    return Json(new
+                    {
+                        reuslt = new Category
+                        {
+                            category_name = ef.category_name,
+                            update_at = ef.update_at,
+                            create_at = ef.create_at
+                        }
+                    }, JsonRequestBehavior.AllowGet);
+
+                }
+            }
+            return Json(null, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public async Task<JsonResult> UpdateCategory(Category category)
+        {
+            if (Request.IsAjaxRequest())
+            {
+                if (category != null)
+                {
+                    bool check = await model.UpdateCategory(category);
+                    if (check)
+                    {
+                        return Json(true, JsonRequestBehavior.AllowGet);
+                    }
+                }
+
+            }
+            return Json(false, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost] 
+        public async Task<JsonResult> RemoveCategory(long id)
+        {
+            if (Request.IsAjaxRequest())
+            {
+                if (id > 0)
+                {
+                    bool check = await model.RemoveCategory(id);
+                    if (check)
+                    {
+                        return Json(true, JsonRequestBehavior.AllowGet);
+                    }
+                }
+            }
+            return Json(false, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public async Task<JsonResult> RemovedArticle(long id)
@@ -216,6 +292,40 @@ namespace Tech_News.Controllers
                 }
             }
             return Json(false, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public async Task<JsonResult> GetTotalCategory()
+        {
+            if (Request.IsAjaxRequest())
+            {
+                var ef = await model.GetCountCategory();
+                int count =  pl.GetPageInfo(10,ef);
+                return Json(new { result = count },JsonRequestBehavior.AllowGet);
+            }
+            return Json(null, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public async Task<JsonResult> CategorySearch(string queryStr,int page = 1)
+        {
+            if (Request.IsAjaxRequest())
+            {
+                var data = await model.SearchCategoryByKeyword(queryStr, page);
+                if (data != null)
+                {
+                    List<Category> new_ef = new List<Category>();
+                    foreach(var item in data)
+                    {
+                        Category ef = new Category();
+                        ef.category_name = item.category_name;
+                        ef.id = item.id;
+                        ef.update_at = item.update_at;
+                        ef.create_at = item.create_at;
+                        new_ef.Add(ef);
+                    }
+                    return Json(new { result = new_ef }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            return Json(null, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public async  Task<JsonResult> GetArticleData(long id)
@@ -243,6 +353,97 @@ namespace Tech_News.Controllers
                 }
             }
             return Json(null, JsonRequestBehavior.AllowGet);
+        }
+        public string ProcessImage(string path)
+        {
+            var fileName = Path.GetFileNameWithoutExtension(path);
+            var extension = Path.GetExtension(path);
+            fileName =  fileName + DateTime.Now.ToString("yymmssfff") + extension;
+            return fileName;
+        }
+
+        [HttpPost,ValidateInput(false)]
+        public async Task<JsonResult> UpdateArticle(Article obj)
+        {
+            if (Request.IsAjaxRequest())
+            {
+                if (obj != null)
+                {
+                    if (obj.uploadImage != null)
+                    {
+                        var fileName =  ProcessImage(obj.uploadImage.FileName);
+                        obj.article_thumbnail = "~/Public/assets/img/" + fileName;
+                        fileName = Path.Combine(Server.MapPath("~/Public/assets/img/"), fileName);
+                        obj.uploadImage.SaveAs(fileName);
+                    }
+
+                    bool check = await model.UpdateArticle(obj);
+                    if (check)
+                    {
+                        return Json(true, JsonRequestBehavior.AllowGet);
+                    }
+                }
+            }
+            return Json(false, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public async Task<JsonResult> GetCountArticle()
+        {
+            if (Request.IsAjaxRequest())
+            {
+                var ef = await model.GetCountArticle();
+                int count = pl.GetPageInfo(10, ef);
+                return Json(new { result = count }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(null, JsonRequestBehavior.AllowGet);
+
+        }
+        [HttpPost,ValidateInput(false)]
+        public async Task<JsonResult> ArticleSearch(string queryStr, int page = 1)
+        {
+            if (Request.IsAjaxRequest())
+            {
+                var data = await model.SearchArticleByKeyword(queryStr, page);
+                if (data != null)
+                {
+                    List<Article> new_ef = new List<Article>();
+                    
+                    foreach (var item in data)
+                    {
+                        View ef_view = new View();
+                        ef_view.total_view = item.view.total_view;
+                        ef_view.id = item.view.id;
+                        Article ef = new Article();
+                        ef.id = item.id;
+                        ef.article_title = item.article_title;
+                        ef.article_content = item.article_content;
+                        ef.article_thumbnail = item.article_thumbnail;
+                        ef.category_id = item.category_id;
+                        ef.create_at = item.create_at;
+                        ef.update_at = item.update_at;
+                        ef.view_id = item.view_id;
+                        ef.view = ef_view;
+                        new_ef.Add(ef);
+                    }
+                    return Json(new_ef, JsonRequestBehavior.AllowGet);
+                }
+            }
+            return Json(null, JsonRequestBehavior.AllowGet);
+        }
+        public async Task<ActionResult> Fonts()
+        {
+            ViewBag.user_id = GetId();
+            bool check = await model.GetSingle(ViewBag.user_id);
+            return View(model);
+        }
+        public ActionResult BlankPage()
+        {
+            return View();
+        }
+
+        public ActionResult GoogleMap()
+        {
+            return View();
         }
     }
    

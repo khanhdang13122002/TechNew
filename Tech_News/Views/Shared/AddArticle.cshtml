@@ -7,7 +7,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                @using (Html.BeginForm("AddArticle", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", onSubmit = "return AjaxSend(this);" }))
+                @using (Html.BeginForm("AddArticle", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", onSubmit = "return AjaxSend(this);", }))
                 {
                     @Html.AntiForgeryToken();
                     <h5>Title</h5>

@@ -1,0 +1,27 @@
+﻿
+@model Tech_News.Models.EF.Category
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("AddCategory", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", onSubmit = "return addCategody(this);" }))
+                {
+                    @Html.AntiForgeryToken();
+                    <br />
+                    <h5>Category Name's</h5>
+                    @Html.EditorFor(model=>model.category_name,new {htmlAttributes = new { @class = "form-control",@id = "txtName"}})
+                    <div class="row">
+                        <div class="col-12 col-md-12 d-flex justify-content-end">
+                            <button type="button" class="m-2 btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="m-2 btn btn-primary" id="addBtn">Submit</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,129 @@
+﻿@model Tech_News.Models.DAO.AdminViewModel
+@using Tech_News.Models.EF
+@{
+    ViewBag.Title = "Articles";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+
+}
+<div class="page-wrapper">
+    <!-- ============================================================== -->
+    <!-- Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <div class="page-breadcrumb bg-white pb-4">
+        <div class="row align-items-center">
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                <h4 class="page-title"><a href="@Url.Action("Categories","Admin")" class="text-dark">Categories</a></h4>
+            </div>
+            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
+                <form action = "@Url.Action("CategorySearch","Admin")" method="post" class="input-group rounded" onsubmit="return SearchCategory(1);">
+                    <input type="search" class="form-control rounded" placeholder="Search" id="searchString"/>
+                    <button type="submit" class="input-group-text border-0" id="searchBtn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Container fluid  -->
+    <!-- ============================================================== -->
+    <div class="container-fluid">
+        <!-- ============================================================== -->
+        <!-- Start Page Content -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="white-box">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="box-title">Category</h3>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+                            <span class="fa fa-plus"></span> Add Category
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table text-nowrap article-table">
+                            <thead>
+                                <tr>
+                                    <th class="border-top-0">Id</th>
+                                    <th class="border-top-0">Category name's</th>
+                                    <th class="border-top-0 text-center">Updated At</th>
+                                    <th class="border-top-0 text-center">Created At</th>
+                                    <th class="border-top-0 text-center">Editor</th>
+                                </tr>
+                            </thead>
+                            <tbody id="categoryTable">
+
+                                @foreach (var item in Model.AllCategory)
+                                {
+                                    <tr>
+                                        <td>@item.id</td>
+                                        <td class="text-overflow">@item.category_name</td>
+                                        <td class="text-center">@item.update_at.ToString("dd/MM/yyyy")</td>
+                                        <td class="text-center">@item.create_at.ToString("dd/MM/yy")</td>
+                                        <td><span class="fa fa-pen-square editor_category pointer" data-id="@item.id" data-bs-toggle="modal" data-bs-target="#updateModal"> </span> <span class="fa fa-trash remove_category pointer" data-id="@item.id"> </span> <span class="fa fa-eye pointer"></span></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-12 d-flex justify-content-center align-items-center">
+                <nav aria-label="Page navigation" class="pagination_section">
+                    <ul class="pagination" id="categoryPagination">
+                        <li>
+                            <a href="@Url.Action("Categories","Admin",new {currentPage = ViewBag.current_page -1 >=1 ?ViewBag.current_page - 1:ViewBag.current_page })" aria-label="Previous"> <span aria-hidden="true">&laquo;</span> </a>
+                        </li>
+                        @for (int i = 1; i <= ViewBag.page_cout; i++)
+                        {
+                            if (i == ViewBag.current_page)
+                            {
+                                <li><a href="@Url.Action("Categories","Admin",new { page = i})" class="actived">@i</a></li>
+
+                            }
+                            else
+                            {
+                                <li><a href="@Url.Action("Categories","Admin",new { page = i})"> @i </a></li>
+
+                            }
+                        }
+                        <li>
+                            <a href="@Url.Action("Categories","Admin",new {page = ViewBag.current_page + 1 <= ViewBag.page_cout ? ViewBag.current_page + 1:ViewBag.current_page })" aria-label="Next" class="active"> <span aria-hidden="true">&raquo;</span> </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        @Html.Partial("AddCategory", new Category())
+        @Html.Partial("UpdateCategory", new Category())
+        <!-- ============================================================== -->
+        <!-- End PAge Content -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Right sidebar -->
+        <!-- ============================================================== -->
+        <!-- .right-sidebar -->
+        <!-- ============================================================== -->
+        <!-- End Right sidebar -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Container fluid  -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- footer -->
+    <!-- ============================================================== -->
+</div>
+@*add modal*@
+
+@section Scripts{
+    <script>
+
+    </script>
+}

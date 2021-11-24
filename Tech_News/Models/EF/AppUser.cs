@@ -14,7 +14,7 @@ namespace Tech_News.Models.EF
         public string avatar { get; set; }
         public virtual ICollection<Author> authors { get; set; }
        
-
+       
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<AppUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
